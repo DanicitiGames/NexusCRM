@@ -7,9 +7,9 @@ Situação | Processo
 :------------ | :-------------|
 :heavy_check_mark: | Definição do escopo do projeto |
 :x: | Criação do diagrama de fluxo |
-:x: | Desenvolvimento do banco de dados |
 :x: | Desenvolvimento das funcionalidades de cadastro de produtos e fornecedores |
 :x: | Desenvolvimento das funcionalidades de cadastro de clientes e estoque |
+:x: | Desenvolvimento do banco de dados |
 :x: | Implementação de relatórios e estatísticas |
 :x: | Testes unitários e de sistema |
 :x: | Correção de bugs e melhorias |
