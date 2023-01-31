@@ -6,8 +6,8 @@ CRM de Gestão de Loja: Sistema de desktop baseado em C# para o gerenciamento de
 Situação | Processo
 :------------ | :-------------|
 :heavy_check_mark: | Definição do escopo do projeto |
-:x: | Criação do diagrama de fluxo |
-:x: | Desenvolvimento das funcionalidades de cadastro de produtos e fornecedores |
+:heavy_check_mark: | Criação do diagrama de fluxo |
+:clock8: | Desenvolvimento das funcionalidades de cadastro de produtos e fornecedores |
 :x: | Desenvolvimento das funcionalidades de cadastro de clientes e estoque |
 :x: | Desenvolvimento do banco de dados |
 :x: | Implementação de relatórios e estatísticas |
