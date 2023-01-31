@@ -7,8 +7,8 @@ Situação | Processo
 :------------ | :-------------|
 :heavy_check_mark: | Definição do escopo do projeto |
 :heavy_check_mark: | Criação do diagrama de fluxo |
-:clock8: | Desenvolvimento das funcionalidades de cadastro de produtos e fornecedores |
-:x: | Desenvolvimento das funcionalidades de cadastro de clientes e estoque |
+:heavy_check_mark: | Desenvolvimento das funcionalidades de cadastro de produtos e fornecedores |
+:clock8: | Desenvolvimento das funcionalidades de cadastro de clientes e estoque |
 :x: | Desenvolvimento do banco de dados |
 :x: | Implementação de relatórios e estatísticas |
 :x: | Testes unitários e de sistema |
