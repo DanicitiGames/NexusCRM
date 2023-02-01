@@ -1,46 +1,57 @@
 using NexusCRM.Products;
+using NexusCRM.Clients;
 
 namespace NexusCRM.Providers
 {
-    public class Provider
+    public class Provider:Client
     {
-        public int Id { get; private set; }
-        //private int uid;
-        public string Name { get; private set; }
-        public string Identifier { get; private set; }
-        public string Address { get; private set; }
-        public string Phone { get; private set; }
-        public string Email { get; private set; }
-        public string CreateDate { get; private set; }
-        public int Status { get; private set; }
-        public Product[] Products { get; private set; }
-        public Provider(int id, string name)
+        public List<Product> Products { get; private set; }
+        public Provider(int id, string name):base(id, name)
         {
-            this.Id = id;
-            this.Name = name;
-            this.Status = 0;
-            this.Products = new Product[1];
+            Products = new List<Product>();
         }
-        public void SetName(string name) { this.Name = name; }
-        public void SetIdentifier(string identifier) { this.Identifier = identifier;}
-        public void SetAddress(string address) { this.Address = address; }
-        public void SetPhone(string phone) { this.Phone = phone; }
-        public void SetEmail(string email) { this.Email = email; }
-        public void SetCreateDate(string createDate) { this.CreateDate = createDate; }
-        public void SetStatus(int status) { this.Status = status; }
         public void SetProduct(Product product) 
         {
-            Products = new Product[] { product };
+            Products = new List<Product> { product };
             product.AddProviderByProduct(this);
         }
-        public void AddProduct(Product product)
+        public void AddProduct(Product product2)
         {
-            Products.SetValue(product, Products[0] == null ? 0 : Products.Length);
-            product.AddProviderByProduct(this);
+            if (Products.Count > 0)
+            {
+                if (Products.FirstOrDefault(product => product.Id == product2.Id) != null) { return; }
+            }
+            Products.Add(product2);
+            product2.AddProviderByProduct(this);
         }
         public void AddProductByProvider(Product product)
         {
-            Products.SetValue(product, Products[0] == null ? 0 : Products.Length);
+            Products.Add(product);
+        }
+        public int CompareTo(Provider other)
+        {
+            if (other == null) return 1;
+            return this.Id.CompareTo(other.Id);
+        }
+        public new string ToString
+        {
+            get
+            {
+                string text = $"ID: {this.Id}\nNome: {this.Name}";
+                if (this.Identifier != "") { text += $"\nCPF/CNPJ: {this.Identifier}"; }
+                if (this.Address != "") { text += $"\nEndereço: {this.Address}"; }
+                if (this.Phone != "") { text += $"\nTelefone:{this.Phone}"; }
+                if (this.Email != "") { text += $"\nE-mail: {this.Email}"; }
+                if (this.Products[0] != null) 
+                { 
+                    text += "\nProdutos:"; 
+                    for(int i = 0; i < Products.Count; i++)
+                    {
+                        text += $"\n[{this.Products[i].Name}]({this.Products[i].Id})";
+                    }
+                }
+                return text;
+            }
         }
     }
 }
