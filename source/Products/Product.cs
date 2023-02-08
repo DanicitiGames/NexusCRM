@@ -65,11 +65,12 @@ namespace NexusCRM.Products
                 string text = $"ID: {this.Id}" +
                   $"\nNome: {this.Name}" +
                   $"\nValor: R$:{this.Price}";
-                if (this.Category != "") { text += $"\nCategoria: {this.Category}"; }
-                if (this.Transport != "") { text += $"\nTipo de transporte: {this.Transport}"; }
+                if (this.Description != "N/A" && this.Description != "") { text += $"\nDescrição: {this.Description}"; }
+                if (this.Category != "N/A" && this.Category != "") { text += $"\nCategoria: {this.Category}"; }
+                if (this.Transport != "N/A" && this.Transport != "") { text += $"\nTipo de transporte: {this.Transport}"; }
                 if (this.TransportPrice != 0m) { text += $"\nValor de transporte: R$:{this.TransportPrice}"; }
-                if (this.Warranty != "") { text += $"\nGarantia: {this.Warranty}"; }
-                if (this.Providers[0] != null)
+                if (this.Warranty != "N/A" && this.Warranty != "") { text += $"\nGarantia: {this.Warranty}"; }
+                if (this.Providers.Count != 0)
                 {
                     text += "\nFornecedores:";
                     for (int i = 0; i < Providers.Count; i++)
