@@ -9,9 +9,9 @@ Situação | Processo
 :heavy_check_mark: | Criação do diagrama de fluxo |
 :heavy_check_mark: | Desenvolvimento das funcionalidades de cadastro de produtos e fornecedores |
 :heavy_check_mark: | Desenvolvimento das funcionalidades de cadastro de clientes e estoque |
-:clock8: | Sistema de armazenamento de dados |
-:x: | Implementação de relatórios e estatísticas |
-:x: | Testes unitários e de sistema |
+:heavy_check_mark: | Sistema de armazenamento de dados |
+:clock8: | Implementação de relatórios e estatísticas |
+:heavy_check_mark: | Testes unitários e de sistema |
 :x: | Correção de bugs e melhorias |
 :x: | Refatorização |
 :x: | Documentação do código e manual do usuário |
