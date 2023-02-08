@@ -34,10 +34,10 @@ namespace NexusCRM.Clients
             get
             {
                 string text = $"ID: {this.Id}\nNome: {this.Name}";
-                if (this.Identifier != "") { text += $"\nCPF/CNPJ: {this.Identifier}"; }
-                if (this.Address != "") { text += $"\nEndereço: {this.Address}"; }
-                if (this.Phone != "") { text += $"\nTelefone:{this.Phone}"; }
-                if (this.Email != "") { text += $"\nE-mail: {this.Email}"; }
+                if (this.Identifier != "N/A" && this.Identifier != "") { text += $"\nCPF/CNPJ: {this.Identifier}"; }
+                if (this.Address != "N/A" && this.Address != "") { text += $"\nEndereço: {this.Address}"; }
+                if (this.Phone != "N/A" && this.Phone != "") { text += $"\nTelefone:{this.Phone}"; }
+                if (this.Email != "N/A" && this.Email != "") { text += $"\nE-mail: {this.Email}"; }
                 return text;
             }
         }
