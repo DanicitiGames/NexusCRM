@@ -1,6 +1,8 @@
-using NexusCRM.Products;
 using NexusCRM.Providers;
+using NexusCRM.Products;
 using NexusCRM.Clients;
+using NexusCRM.Data;
+using System.Collections;
 
 namespace NexusCRM.Main
 {
@@ -10,8 +12,31 @@ namespace NexusCRM.Main
         private List<Provider> providerList = new();
         private List<Client> clientList = new();
         private List<Stock> stockList = new();
+        private IOManager io;
         public void Start()
         {
+            io = new();
+            io.Start();
+            ArrayList products = io.Import(0);
+            foreach (Product product in products)
+            {
+                productsList.Add(product);
+            }
+            ArrayList providers = io.Import(1);
+            foreach (Provider provider in providers)
+            {
+                providerList.Add(provider);
+            }
+            ArrayList clients = io.Import(2);
+            foreach (Client client in clients)
+            {
+                clientList.Add(client);
+            }
+            ArrayList stocks = io.Import(3);
+            foreach (Stock stock in stocks)
+            {
+                stockList.Add(stock);
+            }
             char option = '0';
             while (option != '5')
             {
@@ -215,10 +240,10 @@ namespace NexusCRM.Main
             int id = 0;
             string name = "";
             decimal price = -1m;
-            string category = null;
-            string transport = null;
+            string description;
+            string category;
             decimal transportPrice;
-            string warranty = null;
+            string warranty;
             Console.Clear();
             Console.WriteLine("---------------------------");
             Console.WriteLine("--  Cadastro de Produto  --");
@@ -228,9 +253,9 @@ namespace NexusCRM.Main
             {
                 Console.Write("*ID: ");
                 int VerifyID;
-                try { 
+                try {
                     VerifyID = int.Parse(Console.ReadLine());
-                    if(VerifyID > 0 && ConsultProductValidID(VerifyID))
+                    if (VerifyID > 0 && ConsultProductValidID(VerifyID))
                     {
                         id = VerifyID;
                     };
@@ -248,25 +273,35 @@ namespace NexusCRM.Main
                 try { price = decimal.Parse(Console.ReadLine()); }
                 catch { }
             }
+            Console.Write("Descrição: ");
+            try { description = "" + Console.ReadLine(); }
+            catch { description = "N/A"; }
             Console.Write("Categoria: ");
             try { category = "" + Console.ReadLine(); }
-            catch { }
+            catch { category = "N/A"; }
             Console.Write("Tipo de transporte: ");
+            string transport;
             try { transport = "" + Console.ReadLine(); }
-            catch { }
+            catch { transport = "N/A"; }
             Console.Write("Valor transporte: ");
-            transportPrice = 0m;
             try { transportPrice = decimal.Parse(Console.ReadLine()); }
-            catch { }
+            catch { transportPrice = 0m; }
             Console.Write("Garantia: ");
             try { warranty = "" + Console.ReadLine(); }
-            catch { };
+            catch { warranty = "N/A"; };
             Product product = new(id, name, price);
+            product.SetDescription(description);
             product.SetCategory(category);
             product.SetTransport(transport);
             product.SetTransportPrice(transportPrice);
             product.SetWarranty(warranty);
-            productsList.Add(product);
+            productsList.Add(product); 
+            ArrayList data = new();
+            foreach (Product prod in productsList)
+            {
+                data.Add(prod);
+            }
+            io.SaveData(data);
             Console.WriteLine("Produto cadastrado com sucesso!");
             Console.ReadKey();
         }
@@ -309,16 +344,22 @@ namespace NexusCRM.Main
                     }
                 } catch { }
             }
-            Console.Write("CPF/CNPJ: "); try{ identifier = ""+Console.ReadLine(); } catch { }
-            Console.Write("Endereço: "); try { adress = "" + Console.ReadLine(); } catch { }
-            Console.Write("Celular: "); try { phone = "" + Console.ReadLine(); } catch { }
-            Console.Write("E-mail: "); try { email = "" + Console.ReadLine(); }catch { }
+            Console.Write("CPF/CNPJ: "); try{ identifier = ""+Console.ReadLine(); } catch { identifier = "N/A"; }
+            Console.Write("Endereço: "); try { adress = "" + Console.ReadLine(); } catch { adress = "N/A"; }
+            Console.Write("Celular: "); try { phone = "" + Console.ReadLine(); } catch { phone = "N/A"; }
+            Console.Write("E-mail: "); try { email = "" + Console.ReadLine(); }catch { email = "N/A"; }
             Provider provider = new(id, name);
             provider.SetIdentifier(identifier);
             provider.SetAddress(adress);
             provider.SetPhone(phone);
             provider.SetEmail(email);
             providerList.Add(provider);
+            ArrayList data = new();
+            foreach(Provider prov in providerList)
+            {
+                data.Add(prov);
+            }
+            io.SaveData(data);
             Console.WriteLine("Fornecedor cadastrado com sucesso!");
             Console.ReadKey();
         }
@@ -363,16 +404,22 @@ namespace NexusCRM.Main
                 }
                 catch { }
             }
-            Console.Write("CPF/CNPJ: "); try { identifier = "" + Console.ReadLine(); } catch { }
-            Console.Write("Endereço: "); try { adress = "" + Console.ReadLine(); } catch { }
-            Console.Write("Celular: "); try { phone = "" + Console.ReadLine(); } catch { }
-            Console.Write("E-mail: "); try { email = "" + Console.ReadLine(); } catch { }
+            Console.Write("CPF/CNPJ: "); try { identifier = "" + Console.ReadLine(); } catch { identifier = "N/A"; }
+            Console.Write("Endereço: "); try { adress = "" + Console.ReadLine(); } catch { adress = "N/A"; }
+            Console.Write("Celular: "); try { phone = "" + Console.ReadLine(); } catch { phone = "N/A"; }
+            Console.Write("E-mail: "); try { email = "" + Console.ReadLine(); } catch { email = "N/A"; }
             Client client = new(id, name);
             client.SetIdentifier(identifier);
             client.SetAddress(adress);
             client.SetPhone(phone);
             client.SetEmail(email);
             clientList.Add(client);
+            ArrayList data = new();
+            foreach (Client clien in clientList)
+            {
+                data.Add(clien);
+            }
+            io.SaveData(data);
             Console.WriteLine("Cliente cadastrado com sucesso!");
             Console.ReadKey();
         }
@@ -616,6 +663,12 @@ namespace NexusCRM.Main
                         try { productsList[productPos].SetWarranty(Console.ReadLine()); } catch { }
                         break;
                     case '9':
+                        ArrayList data = new();
+                        foreach (Product product2 in productsList)
+                        {
+                            data.Add(product2);
+                        }
+                        io.SaveData(data);
                         return;
                     default:
                         break;
@@ -704,6 +757,12 @@ namespace NexusCRM.Main
                         try { providerList[providerPos].SetEmail(Console.ReadLine()); } catch { }
                         break;
                     case '7':
+                        ArrayList data = new();
+                        foreach (Provider provider2 in providerList)
+                        {
+                            data.Add(provider2);
+                        }
+                        io.SaveData(data);
                         return;
                     default:
                         break;
@@ -792,6 +851,12 @@ namespace NexusCRM.Main
                         try { clientList[clientPos].SetEmail(Console.ReadLine()); } catch { }
                         break;
                     case '7':
+                        ArrayList data = new();
+                        foreach (Client client2 in clientList)
+                        {
+                            data.Add(client2);
+                        }
+                        io.SaveData(data);
                         return;
                     default:
                         break;
@@ -997,6 +1062,20 @@ namespace NexusCRM.Main
                 return;
             }
             product.AddProvider(provider);
+            ArrayList data2 = new();
+            foreach (Product productD in productsList)
+            {
+                data2.Add(productD);
+            }
+            io.SaveData(data2);
+            ArrayList data = new();
+            foreach (Provider providerD in providerList)
+            {
+                data.Add(providerD);
+            }
+            io.SaveData(data);
+
+
             Console.WriteLine($"Agora '{provider.Name}' tem '{product.Name}' em seus produtos!");
             Console.ReadKey();
         }
@@ -1027,6 +1106,12 @@ namespace NexusCRM.Main
             stock.SetProduct(product);
             stock.SetQuantity(0);
             stockList.Add(stock);
+            ArrayList data = new();
+            foreach (Stock stock2 in stockList)
+            {
+                data.Add(stock2);
+            }
+            io.SaveData(data);
             Console.WriteLine($"Agora '{product.Name}' está no estoque!");
             Console.ReadKey();
         }
@@ -1077,6 +1162,12 @@ namespace NexusCRM.Main
                 if(stockList[i].Product.Id == id)
                 {
                     stockList[i].SetQuantity(newQuantity);
+                    ArrayList data = new();
+                    foreach (Stock stock1 in stockList)
+                    {
+                        data.Add(stock1);
+                    }
+                    io.SaveData(data);
                     Console.WriteLine($"Agora '{stockList[i].Product.Name}' tem {stockList[i].quantity} unidades!");
                     break;
                 }
@@ -1104,14 +1195,17 @@ namespace NexusCRM.Main
         }
         bool ConsultProductValidID(int id)
         {
+            if (productsList == null) { return true; }
             return productsList.FirstOrDefault(product => product.Id == id) == null;
         }
         bool ConsultProviderValidID(int id)
         {
+            if (providerList == null) { return true; }
             return providerList.FirstOrDefault(provider => provider.Id == id) == null;
         }
         bool ConsultClientValidID(int id)
         {
+            if (clientList == null) { return true; }
             return clientList.FirstOrDefault(client => client.Id == id) == null;
         }
     }
