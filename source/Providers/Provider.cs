@@ -38,11 +38,11 @@ namespace NexusCRM.Providers
             get
             {
                 string text = $"ID: {this.Id}\nNome: {this.Name}";
-                if (this.Identifier != "") { text += $"\nCPF/CNPJ: {this.Identifier}"; }
-                if (this.Address != "") { text += $"\nEndereço: {this.Address}"; }
-                if (this.Phone != "") { text += $"\nTelefone:{this.Phone}"; }
-                if (this.Email != "") { text += $"\nE-mail: {this.Email}"; }
-                if (this.Products[0] != null) 
+                if (this.Identifier != "N/A" && this.Identifier != "") { text += $"\nCPF/CNPJ: {this.Identifier}"; }
+                if (this.Address != "N/A" && this.Address != "") { text += $"\nEndereço: {this.Address}"; }
+                if (this.Phone != "N/A" && this.Phone != "") { text += $"\nTelefone:{this.Phone}"; }
+                if (this.Email != "N/A" && this.Email != "") { text += $"\nE-mail: {this.Email}"; }
+                if (this.Products.Count != 0) 
                 { 
                     text += "\nProdutos:"; 
                     for(int i = 0; i < Products.Count; i++)
@@ -51,6 +51,39 @@ namespace NexusCRM.Providers
                     }
                 }
                 return text;
+            }
+        }
+        public string ProductsToString
+        {
+            get
+            {
+                if (this.Products.Count !=0)
+                {
+                    string txt = this.Products[0].Id.ToString();
+                    if(this.Products.Count==1)
+                    {
+                        return txt;
+                    }
+                    for(int i = 1; i < this.Products.Count; i++)
+                    {
+                        txt += $"-{this.Products[i].Id}";
+                    }
+                }
+                return "x";
+            }
+        }
+        public void ProductsByString(string data, List<Product> products)
+        {
+            if (data=="x") { return; }
+            string[] values = data.Split('-');
+            for (int i = 0; i < values.Length; i++)
+            {
+                try
+                {
+                    Product product = products.FirstOrDefault(product => product.Id == int.Parse(values[i]));
+                    AddProduct(product);
+                }
+                catch { }
             }
         }
     }
