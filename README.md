@@ -11,7 +11,7 @@ Situação | Processo
 :heavy_check_mark: | Desenvolvimento das funcionalidades de cadastro de clientes e estoque |
 :heavy_check_mark: | Sistema de armazenamento de dados |
 :clock8: | Implementação de relatórios e estatísticas |
-:heavy_check_mark: | Testes unitários e de sistema |
+:clock8: | Testes unitários e de sistema |
 :x: | Correção de bugs e melhorias |
 :x: | Refatorização |
 :x: | Documentação do código e manual do usuário |
