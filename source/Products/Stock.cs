@@ -12,10 +12,7 @@ namespace NexusCRM.Products
         {
             this.Product = product;
         }
-        public string ToString()
-        {
-            return $"Produto: {Product.Name}\nID:{Product.Id}\nQuantidade: {quantity}";
-        }
+        public string ToString() => $"Produto: {Product.Name}\nID:{Product.Id}\nQuantidade: {quantity}";
         public int CompareTo(Stock other)
         {
             if (other == null) return 1;
